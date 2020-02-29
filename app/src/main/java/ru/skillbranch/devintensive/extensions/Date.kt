@@ -12,10 +12,38 @@ const val HOUR = 60 * MINUTE
 const val DAY = 24 * HOUR
 
 enum class TimeUnits {
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY
+    SECOND{
+        override fun plural(value:Int):String{
+            return unitStrPlural(value, "секунду", "секунды", "секунд")
+        }
+    },
+    MINUTE{
+        override fun plural(value:Int):String{
+            return unitStrPlural(value, "минуту", "минуты", "минут")
+        }
+    },
+    HOUR{
+        override fun plural(value:Int):String{
+            return unitStrPlural(value, "час", "часа", "часов")
+        }
+    },
+    DAY{
+        override fun plural(value:Int):String{
+            return unitStrPlural(value, "день", "дня", "дней")
+        }
+    };
+
+    abstract fun plural(value:Int):String
+    protected fun unitStrPlural(value:Int, unitStr1:String, unitStr2:String, unitStr3:String): String {
+        if(value in 11..14) return "$value $unitStr3"
+        val unitStr = when(value % 10){
+            1 -> unitStr1
+            in 2..4  -> unitStr2
+            else -> unitStr3
+        }
+        return "$value $unitStr"
+    }
+
 }
 
 fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
@@ -55,24 +83,24 @@ fun Date.humanizeDiff(date: Date = Date()): String {
 
     when(minutes){
         in -75..-46 -> return "через час"
-        in -45..-1 -> return "через ${-minutes} минут(ы)"
-        in 1..45 -> return "$minutes минут(ы) назад"
+        in -45..-1 -> return "через ${TimeUnits.MINUTE.plural(-minutes.toInt())}"
+        in 1..45 -> return "${TimeUnits.MINUTE.plural(minutes.toInt())} назад"
         in 46..75 -> return "час назад"
     }
 
     when(hours){
         in -26..-23 -> return "через день"
-        in -22..-1 -> return "через ${-hours} час(ов)"
-        in 1..22 -> return "$hours час(ов) назад"
+        in -22..-1 -> return "через ${TimeUnits.HOUR.plural(-hours.toInt())}"
+        in 1..22 -> return "${TimeUnits.HOUR.plural(hours.toInt())} назад"
         in 23..26 -> return "день назад"
     }
 
     when(days){
-        in -360..-1 -> return "через ${-days} дней"
-        in 1..360 -> return "$days дней назад"
+        in -360..-1 -> return "через ${TimeUnits.DAY.plural(-days.toInt())}"
+        in 1..360 -> return "${TimeUnits.DAY.plural(days.toInt())} назад"
     }
 
-    return if(days > 360) "больше года назад"
-    else "через год"
+    return if(days > 360) "более года назад"
+    else "более чем через год"
 
 }
