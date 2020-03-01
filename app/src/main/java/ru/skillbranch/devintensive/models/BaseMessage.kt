@@ -2,10 +2,7 @@ package ru.skillbranch.devintensive.models
 
 import java.util.*
 
-enum class MessageType {
-    TEXT,
-    IMAGE
-}
+
 
 abstract class BaseMessage(
     val id: String,
@@ -14,7 +11,7 @@ abstract class BaseMessage(
     val isIncoming: Boolean = false,
     val date: Date = Date()
 ) {
-    abstract fun formateMessage(): String
+    abstract fun formatMessage(): String
 
     companion object AbstractFactory {
         var lastId = -1
@@ -22,13 +19,13 @@ abstract class BaseMessage(
             from: User?,
             chat: Chat,
             date: Date = Date(),
-            type: MessageType = MessageType.TEXT,
+            type:String = "text",
             payload: Any?,
             isIncoming: Boolean = false
         ): BaseMessage {
             lastId++
             return when (type) {
-                MessageType.TEXT -> TextMessage(
+                "text" -> TextMessage(
                     "$lastId",
                     from,
                     chat,
@@ -37,7 +34,7 @@ abstract class BaseMessage(
                     isIncoming = isIncoming
                 )
 
-                MessageType.IMAGE -> ImageMessage(
+                else -> ImageMessage(
                     "$lastId",
                     from,
                     chat,
