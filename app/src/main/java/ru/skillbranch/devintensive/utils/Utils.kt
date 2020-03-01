@@ -19,19 +19,20 @@ object Utils {
 
 
     fun toInitials(firstName: String?, lastName: String?): String? {
-        var initials: String? = null
+        var firstSymbol:String? = null
+
         if (firstName != null && firstName.isNotEmpty() && firstName[0] != ' ')
-            initials = firstName[0].toUpperCase().toString()
+            firstSymbol = firstName[0].toUpperCase().toString()
 
-        if (lastName.isNullOrEmpty() || lastName[0] == ' ') return initials
-        initials = lastName[0].toUpperCase().toString()
+        if (lastName.isNullOrEmpty() || lastName[0] == ' ') return firstSymbol
+        if(firstSymbol == null) return lastName[0].toUpperCase().toString()
 
-        return initials
+        return firstSymbol + lastName[0].toUpperCase().toString()
     }
 
     fun transliteration(payload: String, divider: String = " "): String {
         var resultStr = ""
-        //payload.forEach { char -> run { resultStr.plus(char); resultStr.plus('+') } }
+
 
         for(char in payload) {
             val latChar = when(char) {
