@@ -10,3 +10,8 @@ fun String.truncate(length: Int = 16): String {
 
     return truncatedText
 }
+
+
+fun String.stripHtml(): String = this
+    .replace(Regex("<.*?>|&#\\d+?|\\w+?;"), "")
+    .replace(Regex("\\s{2,}"), " ")
