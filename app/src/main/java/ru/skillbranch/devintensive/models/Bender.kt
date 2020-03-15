@@ -23,7 +23,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
             } else {
                 status = status.nextStatus()
-                "Это не правильный ответ!\n${question.question}" to status.color
+                "Это не правильный ответ\n${question.question}" to status.color
             }
         }
     }
@@ -61,7 +61,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         },
         BDAY("Кода меня создали?", listOf("2993")) {
             override fun nextQuestion(): Question = SERIAL
-            override fun validateAnswer(answer: String): Boolean = answer.trim().isDigitsOnly()
+            override fun validateAnswer(answer: String): Boolean = answer.trim().contains(Regex("^[0-9]*$"))
         },
         SERIAL("Мой серийный номер?", listOf("2716057")) {
             override fun nextQuestion(): Question = IDLE
