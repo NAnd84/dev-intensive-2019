@@ -1,5 +1,11 @@
 package ru.skillbranch.devintensive.utils
 
+import android.R
+import android.content.Context
+import android.util.TypedValue
+import kotlin.math.roundToInt
+
+
 object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
 
@@ -112,4 +118,17 @@ object Utils {
     }
 
 
+    fun convertDpToPx(dp: Int, context: Context): Int {
+        return (dp * context.resources.displayMetrics.density).roundToInt()
+    }
+
+    fun convertPxToDp(px: Int, context: Context): Int {
+        return (px / context.resources.displayMetrics.density).roundToInt()
+    }
+
+    fun getThemeAccentColor(context: Context): Int {
+        val value = TypedValue()
+        context.theme.resolveAttribute(R.attr.colorAccent, value, true)
+        return value.data
+    }
 }
