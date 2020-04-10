@@ -59,12 +59,9 @@
         <item name="android:minHeight">72dp</item>
     </style>
 
-    <!-- Кастомная AppTheme.Launcher. Устанавливает в качестве фона вашу drawable -->
-    <style name="AppTheme.Launcher">
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
-        <!-- для Android 5+ вы можете поменять цвет colorPrimaryDark, -->
-        <!-- чтобы соответствовать цвету windowBackground -->
-        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
     </style>
 
 </resources>
